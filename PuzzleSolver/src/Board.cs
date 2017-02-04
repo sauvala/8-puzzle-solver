@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace PuzzleSolver.src
+﻿namespace PuzzleSolver.src
 {
     public class Board
     {
