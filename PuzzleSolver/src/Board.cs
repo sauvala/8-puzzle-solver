@@ -6,8 +6,8 @@ namespace PuzzleSolver
     {
         public int Size { get; }
         public Tile[,] Tiles { get; }
-        private const int RowWidth = 3;
-        private const int ColumnHeight = 3;
+        public const int RowWidth = 3;
+        public const int ColumnHeight = 3;
         public Board(int size)
         {
             Size = size;
