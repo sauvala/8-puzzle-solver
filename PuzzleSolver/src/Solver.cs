@@ -20,11 +20,10 @@ namespace PuzzleSolver
 
             var state = new State(initialBoard, 0, initialCostEstimate);
             var searchableStates = new Dictionary<string, State> { { state.Board.ToString(), state } };
-            var isSolved = false;
             var round = 0;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            while (isSolved == false)
+            while (true)
             {
                 round++;
                 state.IsExpanded = true;
@@ -32,6 +31,18 @@ namespace PuzzleSolver
                 Console.WriteLine("State: " + Environment.NewLine + Environment.NewLine + state.Board);
                 Console.WriteLine("Current cost: " + state.CurrentCost);
                 Console.WriteLine("Estimated remaining cost: " + state.EstimatedRemainingCost + Environment.NewLine);
+
+                if (state.EstimatedRemainingCost == 0)
+                {
+                    stopWatch.Stop();
+                    var timeSpan = stopWatch.Elapsed;
+                    Console.WriteLine(Environment.NewLine + "Goal state found!" + Environment.NewLine);
+                    Console.WriteLine(state.Board + Environment.NewLine);
+                    Console.WriteLine("Number of expanded nodes: " + searchableStates.Count);
+                    Console.WriteLine("Elapsed time: " + timeSpan.Seconds + "." + timeSpan.Milliseconds + " seconds" + Environment.NewLine);
+                    return;
+                }
+
                 Console.WriteLine("Reachable states:" + Environment.NewLine);
                 var childStates = BoardExpander.ExpandStates(state.Board);
 
@@ -39,18 +50,6 @@ namespace PuzzleSolver
                 {
                     Console.WriteLine(child.ToString());
                     var remainingCost = CostEstimator.EstimateCost(child);
-
-                    if (remainingCost == 0)
-                    {
-                        stopWatch.Stop();
-                        var timeSpan = stopWatch.Elapsed;
-                        Console.WriteLine(Environment.NewLine + "Goal state found!" + Environment.NewLine);
-                        Console.WriteLine(child + Environment.NewLine);
-                        Console.WriteLine("Number of expanded nodes: " + searchableStates.Count);
-                        Console.WriteLine("Elapsed time: " + timeSpan.Seconds + "." + timeSpan.Milliseconds + " seconds" + Environment.NewLine);
-                        isSolved = true;
-                    }
-
                     var childState = new State(child, state.CurrentCost + 1, remainingCost);
                     Console.WriteLine("Current cost: " + childState.CurrentCost);
                     Console.WriteLine("Estimated remaining cost: " + childState.EstimatedRemainingCost);
