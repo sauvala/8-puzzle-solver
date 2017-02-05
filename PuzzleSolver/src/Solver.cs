@@ -8,7 +8,7 @@ namespace PuzzleSolver
         {
             Console.WriteLine("Solver is running");
             var board = new Board(8);
-            Console.WriteLine(board.Print());
+            Console.WriteLine("Board initial state: " + Environment.NewLine + board.PrintState());
         }
     }
 }

@@ -14,16 +14,26 @@ namespace PuzzleSolver
             Tiles = new Tile[RowWidth, ColumnHeight];
             InitRandomState(Size);
         }
-        public string Print()
+
+        public string PrintState()
         {
-            string result = "";
-            foreach (Tile tile in Tiles)
+            string state = "";
+            for (var row = 0; row < RowWidth; row++)
             {
-                result = tile?.Number == null ? result + "0" : result + tile?.Number;
+                for (var column = 0; column < ColumnHeight; column++)
+                {
+                    state += "|" + Tiles[row, column].ToString();
+
+                    if (column == ColumnHeight - 1)
+                    {
+                        state += "|" + Environment.NewLine;
+                    }
+                }
             }
 
-            return result;
+            return state;
         }
+
         private void InitRandomState(int size)
         {
             SetInitialState(size);
@@ -51,12 +61,12 @@ namespace PuzzleSolver
         private void ShuffleState()
         {
             var random = new Random();
-            for (var row = 0; row < RowWidth - 1; row++)
+            for (var row = 0; row < RowWidth; row++)
             {
-                for (var column = 0; column < ColumnHeight - 1; column++)
+                for (var column = 0; column < ColumnHeight; column++)
                 {
                     var newRowIndex = random.Next(0, RowWidth);
-                    var newColumnIndex = random.Next(0, ColumnHeight );
+                    var newColumnIndex = random.Next(0, ColumnHeight);
                     var switchTile = Tiles[newRowIndex, newColumnIndex];
                     Tiles[newRowIndex, newColumnIndex] = Tiles[row, column];
                     Tiles[row, column] = switchTile;
