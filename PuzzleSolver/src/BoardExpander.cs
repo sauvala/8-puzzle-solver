@@ -2,9 +2,9 @@
 
 namespace PuzzleSolver
 {
-    public static class BoardMover
+    public static class BoardExpander
     {
-        public static IEnumerable<Board> MoveTiles(Board board)
+        public static IEnumerable<Board> ExpandStates(Board board)
         {
             var newBoardStates = new List<Board>();
             for (var row = 0; row < Board.RowWidth; row++)
