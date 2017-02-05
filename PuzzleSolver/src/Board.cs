@@ -15,6 +15,16 @@ namespace PuzzleSolver
             Tiles = new Tile[RowWidth, ColumnHeight];
             InitRandomState(Size);
         }
+        public string Print()
+        {
+            string result = "";
+            foreach (Tile tile in Tiles)
+            {
+                result = tile?.Number == null ? result + "0" : result + tile?.Number;
+            }
+
+            return result;
+        }
         private void InitRandomState(int size)
         {
             SetInitialState(size);
@@ -53,16 +63,6 @@ namespace PuzzleSolver
                     Tiles[row, column] = switchTile;
                 }
             }
-        }
-        public string Print()
-        {
-            string result = "";
-            foreach (Tile tile in Tiles)
-            {
-                result = tile?.Number == null ? result + "0" : result + tile?.Number;
-            }
-                
-            return result;
         }
     }
 }
