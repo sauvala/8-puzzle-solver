@@ -1,12 +1,14 @@
 ﻿using System;
 
-namespace PuzzleSolver.src
+namespace PuzzleSolver
 {
     public class Solver
     {
         public static void Main(string[] args)
         {
             Console.WriteLine("Solver is running");
+            var board = new Board(8);
+            Console.WriteLine(board.Print());
         }
     }
 }
