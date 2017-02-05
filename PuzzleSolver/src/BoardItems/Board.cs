@@ -14,6 +14,13 @@ namespace PuzzleSolver
             Tiles = new Tile[RowWidth, ColumnHeight];
             InitRandomState(Size);
         }
+ 
+        public Board(Board board)
+        {
+            Size = board.Size;
+            Tiles = new Tile[RowWidth, ColumnHeight];
+            Array.Copy(board.Tiles, 0, Tiles, 0, board.Tiles.Length);
+        }
 
         public string PrintState()
         {
