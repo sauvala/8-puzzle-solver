@@ -22,6 +22,8 @@ namespace PuzzleSolver
             var searchableStates = new Dictionary<string, State> { { state.Board.ToString(), state } };
             var isSolved = false;
             var round = 0;
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             while (isSolved == false)
             {
                 round++;
@@ -40,9 +42,12 @@ namespace PuzzleSolver
 
                     if (remainingCost == 0)
                     {
-                        Console.WriteLine("Goal state found!");
+                        stopWatch.Stop();
+                        var timeSpan = stopWatch.Elapsed;
+                        Console.WriteLine(Environment.NewLine + "Goal state found!" + Environment.NewLine);
                         Console.WriteLine(child + Environment.NewLine);
-                        Console.WriteLine("Number of expanded nodes: " + searchableStates.Count + Environment.NewLine);
+                        Console.WriteLine("Number of expanded nodes: " + searchableStates.Count);
+                        Console.WriteLine("Elapsed time: " + timeSpan.Seconds + "." + timeSpan.Milliseconds + " seconds" + Environment.NewLine);
                         isSolved = true;
                     }
 
