@@ -19,15 +19,15 @@ namespace PuzzleSolver
             }
 
             var state = new State(initialBoard, 0, initialCostEstimate);
-            var expandedStates = new Dictionary<string, State>();
-            var searchableStates = new List<State> { state };
+            var searchableStates = new Dictionary<string, State> { { state.Board.ToString(), state } };
             var isSolved = false;
             var round = 0;
             while (isSolved == false)
             {
                 round++;
+                state.IsExpanded = true;
                 Console.WriteLine("Search Round: " + round + Environment.NewLine);
-                Console.WriteLine("State: " + Environment.NewLine + Environment.NewLine + state.Board.PrintState());
+                Console.WriteLine("State: " + Environment.NewLine + Environment.NewLine + state.Board);
                 Console.WriteLine("Current cost: " + state.CurrentCost);
                 Console.WriteLine("Estimated remaining cost: " + state.EstimatedRemainingCost + Environment.NewLine);
                 Console.WriteLine("Reachable states:" + Environment.NewLine);
@@ -35,13 +35,14 @@ namespace PuzzleSolver
 
                 foreach (var child in childStates)
                 {
-                    Console.WriteLine(child.PrintState());
+                    Console.WriteLine(child.ToString());
                     var remainingCost = CostEstimator.EstimateCost(child);
 
                     if (remainingCost == 0)
                     {
                         Console.WriteLine("Goal state found!");
-                        Console.WriteLine(child.PrintState());
+                        Console.WriteLine(child + Environment.NewLine);
+                        Console.WriteLine("Number of expanded nodes: " + searchableStates.Count + Environment.NewLine);
                         isSolved = true;
                     }
 
@@ -50,16 +51,14 @@ namespace PuzzleSolver
                     Console.WriteLine("Estimated remaining cost: " + childState.EstimatedRemainingCost);
                     Console.WriteLine("Total cost: " + childState.Cost + Environment.NewLine);
                     state.ChildStates.Add(childState);
-                    searchableStates.Add(childState);
-                    if (!expandedStates.ContainsKey(childState.Board.PrintState()))
+
+                    if (!searchableStates.ContainsKey(childState.Board.ToString()))
                     {
-                        expandedStates.Add(childState.Board.PrintState(), childState);
+                        searchableStates.Add(childState.Board.ToString(), childState);
                     }
                 }
 
-                searchableStates.Remove(state);
-                searchableStates = searchableStates.OrderBy(x => x.Cost).ToList();
-                state = searchableStates.First();
+                state = searchableStates.OrderBy(k => k.Value.Cost).FirstOrDefault(x => x.Value.IsExpanded == false).Value;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace PuzzleSolver
             Array.Copy(board.Tiles, 0, Tiles, 0, board.Tiles.Length);
         }
 
-        public string PrintState()
+        public override string ToString()
         {
             string state = "";
             for (var row = 0; row < RowWidth; row++)
