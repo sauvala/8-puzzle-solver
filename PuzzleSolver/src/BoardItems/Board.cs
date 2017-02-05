@@ -33,7 +33,15 @@ namespace PuzzleSolver
 
                     if (column == ColumnHeight - 1)
                     {
-                        state += "|" + Environment.NewLine;
+
+                        if (row < RowWidth - 1)
+                        {
+                            state += "|" + Environment.NewLine;
+                        }
+                        else
+                        {
+                            state += "|";
+                        }
                     }
                 }
             }
