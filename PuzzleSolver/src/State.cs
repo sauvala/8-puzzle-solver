@@ -7,14 +7,32 @@ namespace PuzzleSolver
         public Board Board { get; private set; }
         public int CurrentCost { get; }
         public int EstimatedRemainingCost { get; }
-        public int Cost => CurrentCost + EstimatedRemainingCost;
+        private const double Weight = 1.2;
+        public double Cost
+        {
+            get
+            {
+                switch (EstimationType)
+                {
+                    case CostEstimationType.A:
+                        return CurrentCost + EstimatedRemainingCost;
+                    case CostEstimationType.GreedyBestFirst:
+                        return EstimatedRemainingCost;
+                }
+
+                return CurrentCost + Weight * EstimatedRemainingCost;
+            }
+        }
+
         public List<State> ChildStates { get; } = new List<State>();
         public bool IsExpanded { get; set; } = false;
-        public State(Board board, int currentCost, int estimatedRemainingCost)
+        private CostEstimationType EstimationType { get; }
+        public State(Board board, CostEstimationType costEstimationType, int currentCost, int estimatedRemainingCost)
         {
             Board = board;
             CurrentCost = currentCost;
             EstimatedRemainingCost = estimatedRemainingCost;
+            EstimationType = costEstimationType;
         }
     }
 }
