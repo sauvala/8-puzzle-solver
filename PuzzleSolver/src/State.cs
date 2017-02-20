@@ -12,11 +12,13 @@ namespace PuzzleSolver
         {
             get
             {
-                switch (EstimationType)
+                switch (EstimationMethod)
                 {
-                    case CostEstimationType.A:
+                    case CostEstimationMethod.Astar:
                         return CurrentCost + EstimatedRemainingCost;
-                    case CostEstimationType.GreedyBestFirst:
+                    case CostEstimationMethod.Wa:
+                        return CurrentCost + Weight * EstimatedRemainingCost;
+                    case CostEstimationMethod.GreedyBestFirst:
                         return EstimatedRemainingCost;
                 }
 
@@ -26,13 +28,13 @@ namespace PuzzleSolver
 
         public List<State> ChildStates { get; } = new List<State>();
         public bool IsExpanded { get; set; } = false;
-        private CostEstimationType EstimationType { get; }
-        public State(Board board, CostEstimationType costEstimationType, int currentCost, int estimatedRemainingCost)
+        private CostEstimationMethod EstimationMethod { get; }
+        public State(Board board, CostEstimationMethod costEstimationMethod, int currentCost, int estimatedRemainingCost)
         {
             Board = board;
             CurrentCost = currentCost;
             EstimatedRemainingCost = estimatedRemainingCost;
-            EstimationType = costEstimationType;
+            EstimationMethod = costEstimationMethod;
         }
     }
 }

@@ -1,8 +1,8 @@
 namespace PuzzleSolver
 {
-    public enum CostEstimationType
+    public enum CostEstimationMethod
     {
-        A,
+        Astar,
         Wa,
         GreedyBestFirst
     }

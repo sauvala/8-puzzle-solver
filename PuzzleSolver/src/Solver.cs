@@ -9,17 +9,17 @@ namespace PuzzleSolver
     {
         public static void Main(string[] args)
         {
-            var costEstimationType = CostEstimationType.Wa;
             var initialBoard = new Board(8);
             var initialCostEstimate = CostEstimator.EstimateCost(initialBoard);
-
+            
             if (initialCostEstimate == 0)
             {
                 Console.WriteLine("Initial state was already the goal state. Exiting from the program.");
                 Environment.Exit(0);
             }
 
-            var state = new State(initialBoard, costEstimationType, 0, initialCostEstimate);
+            var costEstimationMethod = CostEstimationMethod.Wa;
+            var state = new State(initialBoard, costEstimationMethod, 0, initialCostEstimate);
             var searchableStates = new Dictionary<string, State> { { state.Board.ToString(), state } };
             var round = 0;
             var stopWatch = new Stopwatch();
@@ -51,7 +51,7 @@ namespace PuzzleSolver
                 {
                     Console.WriteLine(child.ToString());
                     var remainingCost = CostEstimator.EstimateCost(child);
-                    var childState = new State(child, costEstimationType,  state.CurrentCost + 1, remainingCost);
+                    var childState = new State(child, costEstimationMethod,  state.CurrentCost + 1, remainingCost);
                     Console.WriteLine("Current cost: " + childState.CurrentCost);
                     Console.WriteLine("Estimated remaining cost: " + childState.EstimatedRemainingCost);
                     Console.WriteLine("Total cost: " + childState.Cost + Environment.NewLine);
